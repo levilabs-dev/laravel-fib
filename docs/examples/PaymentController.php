@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Full reference example for nizaamomer/laravel-fib.
+ * Full reference example for levilabs/laravel-fib.
  *
  * This is illustrative, not part of the package's autoload — copy what you
  * need into your own app. It assumes an App\Models\Order with a `total`
@@ -19,10 +19,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
-use Nizaamomer\LaravelFib\Enums\Payments\PaymentCategory;
-use Nizaamomer\LaravelFib\Facades\FibPayment;
-use Nizaamomer\LaravelFib\Facades\FibPayout;
-use Nizaamomer\LaravelFib\Models\FibPayment as FibPaymentModel;
+use LeviLabs\LaravelFib\Enums\Payments\PaymentCategory;
+use LeviLabs\LaravelFib\Facades\FibPayment;
+use LeviLabs\LaravelFib\Facades\FibPayout;
+use LeviLabs\LaravelFib\Models\FibPayment as FibPaymentModel;
 
 class PaymentController extends Controller
 {

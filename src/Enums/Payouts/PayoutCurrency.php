@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Nizaamomer\LaravelFib\Enums\Payouts;
+namespace LeviLabs\LaravelFib\Enums\Payouts;
 
 enum PayoutCurrency: string
 {

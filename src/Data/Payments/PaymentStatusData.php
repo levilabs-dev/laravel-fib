@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Nizaamomer\LaravelFib\Data\Payments;
+namespace LeviLabs\LaravelFib\Data\Payments;
 
 use Carbon\CarbonImmutable;
 use Carbon\CarbonInterval;
-use Nizaamomer\LaravelFib\Enums\Payments\DecliningReason;
-use Nizaamomer\LaravelFib\Enums\Payments\PaymentStatus;
+use LeviLabs\LaravelFib\Enums\Payments\DecliningReason;
+use LeviLabs\LaravelFib\Enums\Payments\PaymentStatus;
 
 final readonly class PaymentStatusData
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Nizaamomer\LaravelFib\Enums\Payments;
+namespace LeviLabs\LaravelFib\Enums\Payments;
 
 enum PaymentStatus: string
 {

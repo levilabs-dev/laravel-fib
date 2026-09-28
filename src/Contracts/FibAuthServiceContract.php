@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Nizaamomer\LaravelFib\Contracts;
+namespace LeviLabs\LaravelFib\Contracts;
 
 interface FibAuthServiceContract
 {

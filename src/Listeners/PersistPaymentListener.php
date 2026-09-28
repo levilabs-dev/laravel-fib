@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Nizaamomer\LaravelFib\Listeners;
+namespace LeviLabs\LaravelFib\Listeners;
 
-use Nizaamomer\LaravelFib\Events\Payments\PaymentCreated;
-use Nizaamomer\LaravelFib\Events\Payments\PaymentRefundRequested;
-use Nizaamomer\LaravelFib\Events\Payments\PaymentStatusUpdated;
-use Nizaamomer\LaravelFib\Models\FibPayment;
-use Nizaamomer\LaravelFib\Models\FibRefund;
+use LeviLabs\LaravelFib\Events\Payments\PaymentCreated;
+use LeviLabs\LaravelFib\Events\Payments\PaymentRefundRequested;
+use LeviLabs\LaravelFib\Events\Payments\PaymentStatusUpdated;
+use LeviLabs\LaravelFib\Models\FibPayment;
+use LeviLabs\LaravelFib\Models\FibRefund;
 
 final class PersistPaymentListener
 {

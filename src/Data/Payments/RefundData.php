@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Nizaamomer\LaravelFib\Data\Payments;
+namespace LeviLabs\LaravelFib\Data\Payments;
 
-use Nizaamomer\LaravelFib\Enums\Payments\RefundStatus;
+use LeviLabs\LaravelFib\Enums\Payments\RefundStatus;
 
 final readonly class RefundData
 {

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Nizaamomer\LaravelFib\Models;
+namespace LeviLabs\LaravelFib\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Nizaamomer\LaravelFib\Enums\Payments\RefundStatus;
+use LeviLabs\LaravelFib\Enums\Payments\RefundStatus;
 
 /**
  * @property int $payment_id

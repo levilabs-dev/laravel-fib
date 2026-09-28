@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Nizaamomer\LaravelFib\Models;
+namespace LeviLabs\LaravelFib\Models;
 
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Nizaamomer\LaravelFib\Enums\Payments\DecliningReason;
-use Nizaamomer\LaravelFib\Enums\Payments\PaymentStatus;
+use LeviLabs\LaravelFib\Enums\Payments\DecliningReason;
+use LeviLabs\LaravelFib\Enums\Payments\PaymentStatus;
 
 /**
  * @property string $account

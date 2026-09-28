@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Http;
-use Nizaamomer\LaravelFib\Contracts\FibAuthServiceContract;
-use Nizaamomer\LaravelFib\Exceptions\FibAccountException;
+use LeviLabs\LaravelFib\Contracts\FibAuthServiceContract;
+use LeviLabs\LaravelFib\Exceptions\FibAccountException;
 
 it('requests and caches an access token', function () {
     Http::fake([

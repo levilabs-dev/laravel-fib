@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Nizaamomer\LaravelFib\Contracts\Payments;
+namespace LeviLabs\LaravelFib\Contracts\Payments;
 
-use Nizaamomer\LaravelFib\Data\Payments\PaymentData;
-use Nizaamomer\LaravelFib\Data\Payments\PaymentStatusData;
-use Nizaamomer\LaravelFib\Data\Payments\RefundData;
-use Nizaamomer\LaravelFib\Enums\Payments\PaymentCategory;
+use LeviLabs\LaravelFib\Data\Payments\PaymentData;
+use LeviLabs\LaravelFib\Data\Payments\PaymentStatusData;
+use LeviLabs\LaravelFib\Data\Payments\RefundData;
+use LeviLabs\LaravelFib\Enums\Payments\PaymentCategory;
 
 interface FibPaymentServiceContract
 {

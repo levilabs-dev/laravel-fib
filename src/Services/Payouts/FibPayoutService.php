@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Nizaamomer\LaravelFib\Services\Payouts;
+namespace LeviLabs\LaravelFib\Services\Payouts;
 
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
-use Nizaamomer\LaravelFib\Contracts\FibAuthServiceContract;
-use Nizaamomer\LaravelFib\Contracts\Payouts\FibPayoutServiceContract;
-use Nizaamomer\LaravelFib\Data\Payouts\PayoutData;
-use Nizaamomer\LaravelFib\Data\Payouts\PayoutStatusData;
-use Nizaamomer\LaravelFib\Events\Payouts\PayoutCreated;
-use Nizaamomer\LaravelFib\Events\Payouts\PayoutStatusUpdated;
-use Nizaamomer\LaravelFib\Exceptions\FibAccountException;
-use Nizaamomer\LaravelFib\Exceptions\FibPayoutException;
+use LeviLabs\LaravelFib\Contracts\FibAuthServiceContract;
+use LeviLabs\LaravelFib\Contracts\Payouts\FibPayoutServiceContract;
+use LeviLabs\LaravelFib\Data\Payouts\PayoutData;
+use LeviLabs\LaravelFib\Data\Payouts\PayoutStatusData;
+use LeviLabs\LaravelFib\Events\Payouts\PayoutCreated;
+use LeviLabs\LaravelFib\Events\Payouts\PayoutStatusUpdated;
+use LeviLabs\LaravelFib\Exceptions\FibAccountException;
+use LeviLabs\LaravelFib\Exceptions\FibPayoutException;
 
 final class FibPayoutService implements FibPayoutServiceContract
 {

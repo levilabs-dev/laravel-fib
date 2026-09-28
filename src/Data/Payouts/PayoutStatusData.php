@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Nizaamomer\LaravelFib\Data\Payouts;
+namespace LeviLabs\LaravelFib\Data\Payouts;
 
 use Carbon\CarbonImmutable;
-use Nizaamomer\LaravelFib\Enums\Payouts\PayoutCurrency;
-use Nizaamomer\LaravelFib\Enums\Payouts\PayoutStatus;
+use LeviLabs\LaravelFib\Enums\Payouts\PayoutCurrency;
+use LeviLabs\LaravelFib\Enums\Payouts\PayoutStatus;
 
 final readonly class PayoutStatusData
 {

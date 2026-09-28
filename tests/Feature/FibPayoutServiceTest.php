@@ -3,10 +3,10 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Http;
-use Nizaamomer\LaravelFib\Contracts\Payouts\FibPayoutServiceContract;
-use Nizaamomer\LaravelFib\Data\Payouts\PayoutData;
-use Nizaamomer\LaravelFib\Enums\Payouts\PayoutStatus;
-use Nizaamomer\LaravelFib\Models\FibPayout;
+use LeviLabs\LaravelFib\Contracts\Payouts\FibPayoutServiceContract;
+use LeviLabs\LaravelFib\Data\Payouts\PayoutData;
+use LeviLabs\LaravelFib\Enums\Payouts\PayoutStatus;
+use LeviLabs\LaravelFib\Models\FibPayout;
 
 beforeEach(function () {
     Http::fake([

@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Nizaamomer\LaravelFib\Services\Payments;
+namespace LeviLabs\LaravelFib\Services\Payments;
 
 use Carbon\CarbonInterval;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
-use Nizaamomer\LaravelFib\Contracts\FibAuthServiceContract;
-use Nizaamomer\LaravelFib\Contracts\Payments\FibPaymentServiceContract;
-use Nizaamomer\LaravelFib\Data\Payments\PaymentData;
-use Nizaamomer\LaravelFib\Data\Payments\PaymentStatusData;
-use Nizaamomer\LaravelFib\Data\Payments\RefundData;
-use Nizaamomer\LaravelFib\Enums\Payments\PaymentCategory;
-use Nizaamomer\LaravelFib\Events\Payments\PaymentCreated;
-use Nizaamomer\LaravelFib\Events\Payments\PaymentRefundRequested;
-use Nizaamomer\LaravelFib\Events\Payments\PaymentStatusUpdated;
-use Nizaamomer\LaravelFib\Exceptions\FibAccountException;
-use Nizaamomer\LaravelFib\Exceptions\FibPaymentException;
+use LeviLabs\LaravelFib\Contracts\FibAuthServiceContract;
+use LeviLabs\LaravelFib\Contracts\Payments\FibPaymentServiceContract;
+use LeviLabs\LaravelFib\Data\Payments\PaymentData;
+use LeviLabs\LaravelFib\Data\Payments\PaymentStatusData;
+use LeviLabs\LaravelFib\Data\Payments\RefundData;
+use LeviLabs\LaravelFib\Enums\Payments\PaymentCategory;
+use LeviLabs\LaravelFib\Events\Payments\PaymentCreated;
+use LeviLabs\LaravelFib\Events\Payments\PaymentRefundRequested;
+use LeviLabs\LaravelFib\Events\Payments\PaymentStatusUpdated;
+use LeviLabs\LaravelFib\Exceptions\FibAccountException;
+use LeviLabs\LaravelFib\Exceptions\FibPaymentException;
 
 final class FibPaymentService implements FibPaymentServiceContract
 {

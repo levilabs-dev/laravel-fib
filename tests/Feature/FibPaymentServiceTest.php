@@ -3,14 +3,14 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Http;
-use Nizaamomer\LaravelFib\Contracts\Payments\FibPaymentServiceContract;
-use Nizaamomer\LaravelFib\Data\Payments\PaymentData;
-use Nizaamomer\LaravelFib\Enums\Payments\PaymentCategory;
-use Nizaamomer\LaravelFib\Enums\Payments\PaymentStatus;
-use Nizaamomer\LaravelFib\Enums\Payments\RefundStatus;
-use Nizaamomer\LaravelFib\Exceptions\FibPaymentException;
-use Nizaamomer\LaravelFib\Models\FibPayment;
-use Nizaamomer\LaravelFib\Models\FibRefund;
+use LeviLabs\LaravelFib\Contracts\Payments\FibPaymentServiceContract;
+use LeviLabs\LaravelFib\Data\Payments\PaymentData;
+use LeviLabs\LaravelFib\Enums\Payments\PaymentCategory;
+use LeviLabs\LaravelFib\Enums\Payments\PaymentStatus;
+use LeviLabs\LaravelFib\Enums\Payments\RefundStatus;
+use LeviLabs\LaravelFib\Exceptions\FibPaymentException;
+use LeviLabs\LaravelFib\Models\FibPayment;
+use LeviLabs\LaravelFib\Models\FibRefund;
 
 beforeEach(function () {
     Http::fake([

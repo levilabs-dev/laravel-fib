@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Nizaamomer\LaravelFib\Events\Payments;
+namespace LeviLabs\LaravelFib\Events\Payments;
 
 use Illuminate\Foundation\Events\Dispatchable;
-use Nizaamomer\LaravelFib\Data\Payments\RefundData;
+use LeviLabs\LaravelFib\Data\Payments\RefundData;
 
 final class PaymentRefundRequested
 {

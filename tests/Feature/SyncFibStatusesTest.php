@@ -3,10 +3,10 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Http;
-use Nizaamomer\LaravelFib\Enums\Payments\PaymentStatus;
-use Nizaamomer\LaravelFib\Enums\Payouts\PayoutStatus;
-use Nizaamomer\LaravelFib\Models\FibPayment;
-use Nizaamomer\LaravelFib\Models\FibPayout;
+use LeviLabs\LaravelFib\Enums\Payments\PaymentStatus;
+use LeviLabs\LaravelFib\Enums\Payouts\PayoutStatus;
+use LeviLabs\LaravelFib\Models\FibPayment;
+use LeviLabs\LaravelFib\Models\FibPayout;
 
 it('re-checks pending payments and payouts', function () {
     FibPayment::create([

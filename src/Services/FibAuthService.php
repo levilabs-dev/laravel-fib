@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Nizaamomer\LaravelFib\Services;
+namespace LeviLabs\LaravelFib\Services;
 
 use Illuminate\Cache\CacheManager;
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Support\Facades\Http;
-use Nizaamomer\LaravelFib\Contracts\FibAuthServiceContract;
-use Nizaamomer\LaravelFib\Exceptions\FibAccountException;
-use Nizaamomer\LaravelFib\Exceptions\FibAuthenticationException;
+use LeviLabs\LaravelFib\Contracts\FibAuthServiceContract;
+use LeviLabs\LaravelFib\Exceptions\FibAccountException;
+use LeviLabs\LaravelFib\Exceptions\FibAuthenticationException;
 
 final class FibAuthService implements FibAuthServiceContract
 {

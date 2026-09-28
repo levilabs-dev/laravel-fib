@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Nizaamomer\LaravelFib\Data\Payments;
+namespace LeviLabs\LaravelFib\Data\Payments;
 
 use Carbon\CarbonImmutable;
 

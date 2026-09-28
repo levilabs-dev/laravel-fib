@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Nizaamomer\LaravelFib\Listeners;
+namespace LeviLabs\LaravelFib\Listeners;
 
-use Nizaamomer\LaravelFib\Events\Payouts\PayoutCreated;
-use Nizaamomer\LaravelFib\Events\Payouts\PayoutStatusUpdated;
-use Nizaamomer\LaravelFib\Models\FibPayout;
+use LeviLabs\LaravelFib\Events\Payouts\PayoutCreated;
+use LeviLabs\LaravelFib\Events\Payouts\PayoutStatusUpdated;
+use LeviLabs\LaravelFib\Models\FibPayout;
 
 final class PersistPayoutListener
 {

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Nizaamomer\LaravelFib\Facades;
+namespace LeviLabs\LaravelFib\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use Nizaamomer\LaravelFib\Contracts\Payouts\FibPayoutServiceContract;
-use Nizaamomer\LaravelFib\Data\Payouts\PayoutData;
-use Nizaamomer\LaravelFib\Data\Payouts\PayoutStatusData;
+use LeviLabs\LaravelFib\Contracts\Payouts\FibPayoutServiceContract;
+use LeviLabs\LaravelFib\Data\Payouts\PayoutData;
+use LeviLabs\LaravelFib\Data\Payouts\PayoutStatusData;
 
 /**
  * @method static PayoutData create(float $amount, string $targetAccountIban, ?string $description = null, ?string $currency = null, ?string $account = null)

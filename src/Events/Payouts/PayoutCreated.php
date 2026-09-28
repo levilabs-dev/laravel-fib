@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Nizaamomer\LaravelFib\Events\Payouts;
+namespace LeviLabs\LaravelFib\Events\Payouts;
 
 use Illuminate\Foundation\Events\Dispatchable;
-use Nizaamomer\LaravelFib\Data\Payouts\PayoutData;
+use LeviLabs\LaravelFib\Data\Payouts\PayoutData;
 
 final class PayoutCreated
 {

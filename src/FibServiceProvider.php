@@ -2,23 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Nizaamomer\LaravelFib;
+namespace LeviLabs\LaravelFib;
 
 use Illuminate\Support\Facades\Event;
-use Nizaamomer\LaravelFib\Console\Commands\SyncFibStatuses;
-use Nizaamomer\LaravelFib\Contracts\FibAuthServiceContract;
-use Nizaamomer\LaravelFib\Contracts\Payments\FibPaymentServiceContract;
-use Nizaamomer\LaravelFib\Contracts\Payouts\FibPayoutServiceContract;
-use Nizaamomer\LaravelFib\Events\Payments\PaymentCreated;
-use Nizaamomer\LaravelFib\Events\Payments\PaymentRefundRequested;
-use Nizaamomer\LaravelFib\Events\Payments\PaymentStatusUpdated;
-use Nizaamomer\LaravelFib\Events\Payouts\PayoutCreated;
-use Nizaamomer\LaravelFib\Events\Payouts\PayoutStatusUpdated;
-use Nizaamomer\LaravelFib\Listeners\PersistPaymentListener;
-use Nizaamomer\LaravelFib\Listeners\PersistPayoutListener;
-use Nizaamomer\LaravelFib\Services\FibAuthService;
-use Nizaamomer\LaravelFib\Services\Payments\FibPaymentService;
-use Nizaamomer\LaravelFib\Services\Payouts\FibPayoutService;
+use LeviLabs\LaravelFib\Console\Commands\SyncFibStatuses;
+use LeviLabs\LaravelFib\Contracts\FibAuthServiceContract;
+use LeviLabs\LaravelFib\Contracts\Payments\FibPaymentServiceContract;
+use LeviLabs\LaravelFib\Contracts\Payouts\FibPayoutServiceContract;
+use LeviLabs\LaravelFib\Events\Payments\PaymentCreated;
+use LeviLabs\LaravelFib\Events\Payments\PaymentRefundRequested;
+use LeviLabs\LaravelFib\Events\Payments\PaymentStatusUpdated;
+use LeviLabs\LaravelFib\Events\Payouts\PayoutCreated;
+use LeviLabs\LaravelFib\Events\Payouts\PayoutStatusUpdated;
+use LeviLabs\LaravelFib\Listeners\PersistPaymentListener;
+use LeviLabs\LaravelFib\Listeners\PersistPayoutListener;
+use LeviLabs\LaravelFib\Services\FibAuthService;
+use LeviLabs\LaravelFib\Services\Payments\FibPaymentService;
+use LeviLabs\LaravelFib\Services\Payouts\FibPayoutService;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 

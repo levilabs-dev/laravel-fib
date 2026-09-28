@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Nizaamomer\LaravelFib\Tests;
+namespace LeviLabs\LaravelFib\Tests;
 
-use Nizaamomer\LaravelFib\FibServiceProvider;
+use LeviLabs\LaravelFib\FibServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra

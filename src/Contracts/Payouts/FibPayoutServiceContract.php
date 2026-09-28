@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Nizaamomer\LaravelFib\Contracts\Payouts;
+namespace LeviLabs\LaravelFib\Contracts\Payouts;
 
-use Nizaamomer\LaravelFib\Data\Payouts\PayoutData;
-use Nizaamomer\LaravelFib\Data\Payouts\PayoutStatusData;
+use LeviLabs\LaravelFib\Data\Payouts\PayoutData;
+use LeviLabs\LaravelFib\Data\Payouts\PayoutStatusData;
 
 interface FibPayoutServiceContract
 {

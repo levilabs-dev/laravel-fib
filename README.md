@@ -1,17 +1,17 @@
 # Laravel FIB Payment & Payout SDK
 
 <p>
-<a href="https://packagist.org/packages/nizaamomer/laravel-fib"><img src="https://img.shields.io/packagist/v/nizaamomer/laravel-fib.svg?style=flat-square&label=Packagist&color=orange" alt="Latest Version on Packagist"></a>
-<a href="https://github.com/nizaamomer/laravel-fib/actions"><img src="https://img.shields.io/github/actions/workflow/status/nizaamomer/laravel-fib/run-tests.yml?branch=main&label=Tests&style=flat-square" alt="Tests"></a>
-<a href="https://packagist.org/packages/nizaamomer/laravel-fib"><img src="https://img.shields.io/packagist/dt/nizaamomer/laravel-fib.svg?style=flat-square&label=Downloads&color=blue" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/nizaamomer/laravel-fib"><img src="https://img.shields.io/packagist/php-v/nizaamomer/laravel-fib.svg?style=flat-square&label=PHP&color=777bb4" alt="PHP Version"></a>
+<a href="https://packagist.org/packages/levilabs/laravel-fib"><img src="https://img.shields.io/packagist/v/levilabs/laravel-fib.svg?style=flat-square&label=Packagist&color=orange" alt="Latest Version on Packagist"></a>
+<a href="https://github.com/levilabs-dev/laravel-fib/actions"><img src="https://img.shields.io/github/actions/workflow/status/levilabs-dev/laravel-fib/run-tests.yml?branch=main&label=Tests&style=flat-square" alt="Tests"></a>
+<a href="https://packagist.org/packages/levilabs/laravel-fib"><img src="https://img.shields.io/packagist/dt/levilabs/laravel-fib.svg?style=flat-square&label=Downloads&color=blue" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/levilabs/laravel-fib"><img src="https://img.shields.io/packagist/php-v/levilabs/laravel-fib.svg?style=flat-square&label=PHP&color=777bb4" alt="PHP Version"></a>
 <a href="https://laravel.com"><img src="https://img.shields.io/badge/Laravel-11%20%7C%2012%20%7C%2013-ff2d20?style=flat-square" alt="Laravel Version"></a>
-<a href="LICENSE.md"><img src="https://img.shields.io/packagist/l/nizaamomer/laravel-fib.svg?style=flat-square&color=success" alt="License"></a>
+<a href="LICENSE.md"><img src="https://img.shields.io/packagist/l/levilabs/laravel-fib.svg?style=flat-square&color=success" alt="License"></a>
 </p>
 
 A modern Laravel SDK for [First Iraqi Bank (FIB)](https://fib.iq) — **payments**, **payouts**, and **refunds** in one package, with typed DTOs, enums, multi-account support, automatic status persistence, and a webhook-safe verification flow.
 
-Built by [Nizaam Omer](https://nizaamomer.com) — [nizaamomer.com](https://nizaamomer.com)
+Maintained by **[Levi Labs](https://levilabs.dev)** ([GitHub](https://github.com/levilabs-dev)) — built by [Nizam Omer](https://nizaamomer.com)
 
 ## Table of Contents
 
@@ -47,7 +47,7 @@ Payments, payouts, and refunds all share the same OAuth2 client-credentials flow
 ## Installation
 
 ```bash
-composer require nizaamomer/laravel-fib
+composer require levilabs/laravel-fib
 ```
 
 Publish the config file:
@@ -89,7 +89,7 @@ FibPayment::create(500.00, account: 'second_account');
 ### Creating a payment
 
 ```php
-use Nizaamomer\LaravelFib\Facades\FibPayment;
+use LeviLabs\LaravelFib\Facades\FibPayment;
 
 $payment = FibPayment::create(
     amount: 500.00,
@@ -108,7 +108,7 @@ $payment->validUntil;     // CarbonImmutable
 A few more optional arguments are available when you need them:
 
 ```php
-use Nizaamomer\LaravelFib\Enums\Payments\PaymentCategory;
+use LeviLabs\LaravelFib\Enums\Payments\PaymentCategory;
 
 FibPayment::create(
     amount: 500.00,
@@ -121,7 +121,7 @@ FibPayment::create(
 Or resolve the contract instead of using the facade:
 
 ```php
-use Nizaamomer\LaravelFib\Contracts\Payments\FibPaymentServiceContract;
+use LeviLabs\LaravelFib\Contracts\Payments\FibPaymentServiceContract;
 
 public function __construct(private FibPaymentServiceContract $payments) {}
 ```
@@ -200,7 +200,7 @@ to re-check every pending payment (and pending payout — see below) directly ag
 Payouts move money **out** of your FIB account to a recipient's IBAN. This is a two-step flow: create, then authorize.
 
 ```php
-use Nizaamomer\LaravelFib\Facades\FibPayout;
+use LeviLabs\LaravelFib\Facades\FibPayout;
 
 $payout = FibPayout::create(
     amount: 1000,
@@ -239,7 +239,7 @@ Add the reverse relation on your own model (no migration needed on your side —
 ```php
 // app/Models/Order.php
 use Illuminate\Database\Eloquent\Relations\MorphOne;
-use Nizaamomer\LaravelFib\Models\FibPayment;
+use LeviLabs\LaravelFib\Models\FibPayment;
 
 class Order extends Model
 {
@@ -253,7 +253,7 @@ class Order extends Model
 Then associate it right after creating the payment — our `PaymentCreated` event fires synchronously, so the `fib_payments` row already exists by the time `create()` returns:
 
 ```php
-use Nizaamomer\LaravelFib\Models\FibPayment;
+use LeviLabs\LaravelFib\Models\FibPayment;
 
 $payment = FibPayment::create(amount: $order->total, description: "Order #{$order->id}");
 
@@ -271,7 +271,7 @@ $fibPayment->payable;          // the Order instance, straight off ours
 ### Listening to events yourself
 
 ```php
-Event::listen(\Nizaamomer\LaravelFib\Events\Payments\PaymentStatusUpdated::class, function ($event) {
+Event::listen(\LeviLabs\LaravelFib\Events\Payments\PaymentStatusUpdated::class, function ($event) {
     // $event->status, $event->account
 });
 ```
@@ -289,7 +289,7 @@ Event::listen(\Nizaamomer\LaravelFib\Events\Payments\PaymentStatusUpdated::class
 - **Credentials live in `.env`,** never in version control. Rotate `FIB_CLIENT_SECRET` immediately if it's ever exposed.
 - **Tokens are cached, never logged.** The auth token is stored in your configured cache store, scoped per account, and is never written to logs or exceptions.
 
-If you discover a security issue, please email [nizaamomer@gmail.com](mailto:nizaamomer@gmail.com) instead of using the public issue tracker.
+If you discover a security issue, please see [SECURITY.md](SECURITY.md) — do not use the public issue tracker.
 
 ## Testing
 
@@ -307,9 +307,15 @@ See the [FIB Online Payments documentation](https://fib.iq/all-integrations/) fo
 
 See [CHANGELOG.md](CHANGELOG.md) for what's changed in each release.
 
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## Author
 
-**Nizaam Omer** — [nizaamomer.com](https://nizaamomer.com) · [nizaamomer@gmail.com](mailto:nizaamomer@gmail.com)
+**[Levi Labs](https://levilabs.dev)** — software development studio · [GitHub](https://github.com/levilabs-dev) · [hello@levilabs.dev](mailto:hello@levilabs.dev)
+
+Created and maintained by **Nizam Omer** — [nizaamomer.com](https://nizaamomer.com) · [nizam@nizaamomer.com](mailto:nizam@nizaamomer.com)
 
 ## License
 

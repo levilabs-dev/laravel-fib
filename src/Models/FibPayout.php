@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Nizaamomer\LaravelFib\Models;
+namespace LeviLabs\LaravelFib\Models;
 
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Nizaamomer\LaravelFib\Enums\Payouts\PayoutStatus;
+use LeviLabs\LaravelFib\Enums\Payouts\PayoutStatus;
 
 /**
  * @property string $account

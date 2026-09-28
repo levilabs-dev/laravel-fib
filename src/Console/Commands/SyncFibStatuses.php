@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Nizaamomer\LaravelFib\Console\Commands;
+namespace LeviLabs\LaravelFib\Console\Commands;
 
 use Illuminate\Console\Command;
-use Nizaamomer\LaravelFib\Contracts\Payments\FibPaymentServiceContract;
-use Nizaamomer\LaravelFib\Contracts\Payouts\FibPayoutServiceContract;
-use Nizaamomer\LaravelFib\Enums\Payments\PaymentStatus;
-use Nizaamomer\LaravelFib\Enums\Payouts\PayoutStatus;
-use Nizaamomer\LaravelFib\Models\FibPayment;
-use Nizaamomer\LaravelFib\Models\FibPayout;
+use LeviLabs\LaravelFib\Contracts\Payments\FibPaymentServiceContract;
+use LeviLabs\LaravelFib\Contracts\Payouts\FibPayoutServiceContract;
+use LeviLabs\LaravelFib\Enums\Payments\PaymentStatus;
+use LeviLabs\LaravelFib\Enums\Payouts\PayoutStatus;
+use LeviLabs\LaravelFib\Models\FibPayment;
+use LeviLabs\LaravelFib\Models\FibPayout;
 use Throwable;
 
 /**

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Nizaamomer\LaravelFib\Exceptions;
+namespace LeviLabs\LaravelFib\Exceptions;
 
 use RuntimeException;
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Nizaamomer\LaravelFib\Data\Payouts;
+namespace LeviLabs\LaravelFib\Data\Payouts;
 
 final readonly class PayoutData
 {
