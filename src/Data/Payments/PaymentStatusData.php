@@ -75,4 +75,23 @@ final readonly class PaymentStatusData
 
         return $this->paidAt->add($window)->isFuture();
     }
+
+    /**
+     * Whether `FibPayment::pollForStatus()` should keep
+     * calling the Check Payment Status endpoint (FIB best-practice polling).
+     */
+    public function shouldContinuePolling(): bool
+    {
+        if ($this->status->isCheckoutTerminal()) {
+            return false;
+        }
+
+        if ($this->status === PaymentStatus::Unpaid
+            && $this->validUntil !== null
+            && $this->validUntil->isPast()) {
+            return false;
+        }
+
+        return $this->status === PaymentStatus::Unpaid;
+    }
 }

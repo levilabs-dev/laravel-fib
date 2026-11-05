@@ -21,6 +21,7 @@ Maintained by **[Levi Labs](https://levilabs.dev)** ([GitHub](https://github.com
 - [Payments](#payments)
   - [Creating a payment](#creating-a-payment)
   - [Checking payment status](#checking-payment-status)
+  - [FIB-recommended status tracking](#fib-recommended-status-tracking)
   - [Cancelling a payment](#cancelling-a-payment)
   - [Refunding a payment](#refunding-a-payment)
   - [Handling the payment callback](#handling-the-payment-callback--never-trust-the-webhook-body)
@@ -30,6 +31,7 @@ Maintained by **[Levi Labs](https://levilabs.dev)** ([GitHub](https://github.com
 - [Full example](#full-example)
 - [Security](#security)
 - [Testing](#testing)
+- [Stage environment & FIB test apps](#stage-environment--fib-test-apps)
 - [FIB API Reference](#fib-api-reference)
 - [Changelog](#changelog)
 - [Author](#author)
@@ -66,13 +68,20 @@ Add your FIB credentials to `.env`:
 
 ```env
 FIB_DEFAULT_ACCOUNT=default                    # which "accounts" entry in config/fib.php to use by default
-FIB_BASE_URL=https://fib.stage.fib.iq          # stage (test). Production is https://fib.prod.fib.iq
+FIB_BASE_URL=https://fib.stage.fib.iq          # stage — see "Stage environment" below (fib-stage.fib.iq is common too)
 FIB_CLIENT_ID=your-client-id                   # provided by FIB
 FIB_CLIENT_SECRET=your-client-secret           # provided by FIB — keep this out of version control
 FIB_CURRENCY=IQD                               # default currency for payments and payouts
-FIB_CALLBACK_URL=https://your-app.test/fib/callback  # FIB POSTs payment status changes here
+FIB_CALLBACK_URL=https://your-app.test/fib/callback  # FIB POSTs payment status changes here (HTTPS, publicly reachable in stage/prod)
 FIB_REFUNDABLE_FOR=P7D                         # optional, ISO-8601 duration — how long a payment stays refundable, defaults to P7D
+FIB_STATUS_POLL_INITIAL_WAIT=15                # optional — seconds before first status poll on waiting screens
+FIB_STATUS_POLL_INTERVAL=5                     # optional — seconds between polls (FIB best-practice doc)
+FIB_STATUS_POLL_MAX_ATTEMPTS=120               # optional — cap active polling (~15 min window at 5s)
 ```
+
+> **Stage base URL:** FIB onboarding and Postman often use `https://fib-stage.fib.iq`. This package’s default is `https://fib.stage.fib.iq`. Set `FIB_BASE_URL` to the host FIB gives you for your `client_id` — both names appear in the wild.
+
+> **Create payment amounts:** for IQD, amounts are sent as **whole numbers** (no commas or decimal point), per FIB’s API documentation.
 
 <!--
 ### Multiple accounts
@@ -136,7 +145,29 @@ $status->isPaid();       // bool
 $status->isRefundable(); // bool, based on FIB_REFUNDABLE_FOR
 $status->amount;         // float
 $status->paidAt;         // ?CarbonImmutable
+$status->paidByName;     // payer name when PAID
+$status->paidByIban;     // payer IBAN when PAID
 ```
+
+### FIB-recommended status tracking
+
+FIB’s integration guidance combines **`statusCallbackUrl`** (webhook) with the **Check Payment Status** endpoint:
+
+1. Provide `FIB_CALLBACK_URL` (or `callbackUrl` on `create()`).
+2. After creating a payment, wait **~15 seconds** for the callback.
+3. If the order is still unpaid, call **`FibPayment::status()`** (or poll on your waiting page).
+4. Repeat every **~5 seconds** until the payment is **paid**, **declined**, **refunded**, or **past `validUntil`** (~15 minutes by default).
+
+The SDK implements that active polling loop for checkout screens:
+
+```php
+$status = FibPayment::pollForStatus($paymentId);
+// Defaults: 15s initial wait, 5s interval — override via config or method arguments.
+```
+
+For a single check (e.g. AJAX from the browser every 5s), use `FibPayment::status()` instead.
+
+**Do not trust the callback JSON** — always re-fetch status inside your callback handler (see below). Schedule **`fib:sync-statuses`** as a coarse backstop if a callback is missed entirely.
 
 ### Cancelling a payment
 
@@ -299,9 +330,44 @@ composer analyse      # Larastan / PHPStan (level 8)
 composer format        # Laravel Pint
 ```
 
+## Stage environment & FIB test apps
+
+End-to-end stage testing uses FIB’s **Android staging apps** (Firebase App Distribution), not this package:
+
+1. Use the **same email** you submitted on FIB’s merchant form — FIB adds you to Firebase and sends install invites (Personal + Business/Corporate staging).
+2. Install on **Android** (iOS is not supported for these builds). Enable Play Store **internal app sharing** if the invite flow asks for it.
+3. Set `FIB_BASE_URL` and OAuth credentials from FIB (**never commit** `FIB_CLIENT_SECRET` to git).
+4. Pay using QR code, app link, or **QuickPay → manual code** (`readableCode` from `FibPayment::create()`).
+5. FIB supplies **sandbox login details** for Personal/Business apps in their onboarding email — use those only in stage.
+
+Postman / OpenAPI docs and the stage host are provided by FIB during onboarding (often `https://fib-stage.fib.iq`).
+
 ## FIB API Reference
 
 See the [FIB Online Payments documentation](https://fib.iq/all-integrations/) for the underlying REST API this SDK wraps.
+
+### SDK mapping
+
+| SDK | FIB API |
+| --- | ------- |
+| (auth) | `POST …/protocol/openid-connect/token` (`client_credentials`) |
+| `FibPayment::create()` | `POST /protected/v1/payments` |
+| `FibPayment::status()` | `GET /protected/v1/payments/{id}/status` |
+| `FibPayment::pollForStatus()` | Repeated `status()` with FIB’s suggested wait/poll intervals |
+| `FibPayment::cancel()` | `POST /protected/v1/payments/{id}/cancel` |
+| `FibPayment::refund()` | `POST /protected/v1/payments/{id}/refund` (HTTP 202) |
+
+| Environment | Base URL (examples) |
+| ----------- | ------------------- |
+| Stage | `https://fib-stage.fib.iq` or `https://fib.stage.fib.iq` |
+| Production | `https://fib.prod.fib.iq` |
+
+| Payment status | Meaning |
+| -------------- | ------- |
+| `UNPAID` | Awaiting customer (default) |
+| `PAID` | Successful |
+| `DECLINED` | Cancelled / expired / declined |
+| `REFUND_REQUESTED` / `REFUNDED` | Refund lifecycle |
 
 ## Changelog
 

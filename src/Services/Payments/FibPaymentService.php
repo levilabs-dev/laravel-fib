@@ -44,7 +44,7 @@ final class FibPaymentService implements FibPaymentServiceContract
 
         $payload = array_filter([
             'monetaryValue' => [
-                'amount' => number_format($amount, 2, '.', ''),
+                'amount' => $this->formatAmount($amount, $currency),
                 'currency' => $currency,
             ],
             'statusCallbackUrl' => $callbackUrl ?? config('fib.callback_url'),
@@ -123,6 +123,36 @@ final class FibPaymentService implements FibPaymentServiceContract
         return $refund;
     }
 
+    public function pollForStatus(
+        string $paymentId,
+        ?int $initialWaitSeconds = null,
+        ?int $pollIntervalSeconds = null,
+        ?int $maxAttempts = null,
+        ?string $account = null,
+    ): PaymentStatusData {
+        $initialWait = $initialWaitSeconds ?? (int) config('fib.status_polling.initial_wait_seconds', 15);
+        $interval = $pollIntervalSeconds ?? (int) config('fib.status_polling.interval_seconds', 5);
+        $max = $maxAttempts ?? (int) config('fib.status_polling.max_attempts', 120);
+
+        if ($initialWait > 0) {
+            sleep($initialWait);
+        }
+
+        $attempts = 0;
+        $status = $this->status($paymentId, $account);
+
+        while ($status->shouldContinuePolling() && $attempts < $max) {
+            if ($interval > 0) {
+                sleep($interval);
+            }
+
+            $status = $this->status($paymentId, $account);
+            $attempts++;
+        }
+
+        return $status;
+    }
+
     /**
      * FIB only accepts a refundableFor duration between 12 hours and 7 days.
      */
@@ -139,6 +169,18 @@ final class FibPaymentService implements FibPaymentServiceContract
         }
 
         return $refundableFor;
+    }
+
+    /**
+     * FIB documents amounts without commas or decimal separators (whole IQD).
+     */
+    private function formatAmount(float $amount, string $currency): string
+    {
+        if (strtoupper($currency) === 'IQD') {
+            return (string) (int) round($amount);
+        }
+
+        return number_format($amount, 2, '.', '');
     }
 
     private function client(string $account): PendingRequest

@@ -25,8 +25,10 @@ return [
     | can accept payments/send payouts through multiple FIB business or
     | corporate accounts.
     |
-    | base_url: stage (test) is https://fib.stage.fib.iq, production (live)
-    | is https://fib.prod.fib.iq.
+    | base_url: stage (test) — FIB onboarding emails and Postman often use
+    | https://fib-stage.fib.iq; https://fib.stage.fib.iq is also used in the
+    | wild. Set FIB_BASE_URL to the host FIB assigns for your client_id.
+    | Production (live): https://fib.prod.fib.iq
     |
     */
     'accounts' => [
@@ -107,6 +109,25 @@ return [
         'timeout' => (int) env('FIB_HTTP_TIMEOUT', 15),
         'retry_times' => (int) env('FIB_HTTP_RETRY_TIMES', 1),
         'retry_sleep_ms' => (int) env('FIB_HTTP_RETRY_SLEEP_MS', 200),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Checkout status polling (FIB best practices)
+    |--------------------------------------------------------------------------
+    |
+    | FIB recommends combining statusCallbackUrl with the Check Payment Status
+    | endpoint: wait briefly for the callback, then poll every few seconds until
+    | the payment is paid, declined, expired, or refunded. Used by
+    | FibPayment::pollForStatus() on waiting/checkout screens.
+    |
+    | fib:sync-statuses remains the backstop for missed callbacks (coarser).
+    |
+    */
+    'status_polling' => [
+        'initial_wait_seconds' => (int) env('FIB_STATUS_POLL_INITIAL_WAIT', 15),
+        'interval_seconds' => (int) env('FIB_STATUS_POLL_INTERVAL', 5),
+        'max_attempts' => (int) env('FIB_STATUS_POLL_MAX_ATTEMPTS', 120),
     ],
 
 ];

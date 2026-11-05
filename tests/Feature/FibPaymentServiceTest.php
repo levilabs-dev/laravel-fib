@@ -51,6 +51,23 @@ it('rejects a non-positive amount', function () {
     app(FibPaymentServiceContract::class)->create(0.0);
 })->throws(InvalidArgumentException::class);
 
+it('formats IQD amounts as whole numbers without decimals', function () {
+    Http::fake([
+        '*/protected/v1/payments' => Http::response([
+            'paymentId' => '9dfa724f-4784-4487-811b-63057b540503',
+            'readableCode' => 'S3LE-NZ2S-ZNGF',
+            'qrCode' => 'data:image/png;base64,fake',
+            'validUntil' => '2022-01-31T12:15:44.020920Z',
+        ], 202),
+    ]);
+
+    app(FibPaymentServiceContract::class)->create(505.0, 'Order #1');
+
+    Http::assertSent(function ($request) {
+        return ($request['monetaryValue']['amount'] ?? null) === '505';
+    });
+});
+
 it('sends redirectUri, expiresIn and category on create', function () {
     Http::fake([
         '*/protected/v1/payments' => Http::response([
@@ -85,6 +102,40 @@ it('rejects a refundable_for window outside FIB\'s 12h-7d range', function () {
 
     app(FibPaymentServiceContract::class)->create(500.0);
 })->throws(InvalidArgumentException::class);
+
+it('polls until a paid status is returned', function () {
+    $calls = 0;
+
+    Http::fake(function ($request) use (&$calls) {
+        if (str_contains($request->url(), 'openid-connect/token')) {
+            return Http::response(['access_token' => 'fake-token', 'expires_in' => 60], 200);
+        }
+
+        $calls++;
+        $status = $calls < 2 ? 'UNPAID' : 'PAID';
+
+        return Http::response([
+            'paymentId' => '4d6f7625-60f7-48e3-82e3-b4592a4eb993',
+            'status' => $status,
+            'validUntil' => now()->addMinutes(15)->toIso8601String(),
+            'paidAt' => $status === 'PAID' ? now()->toIso8601String() : null,
+            'amount' => ['amount' => 500, 'currency' => 'IQD'],
+            'decliningReason' => null,
+            'declinedAt' => null,
+            'paidBy' => ['name' => 'Test User', 'iban' => 'IQ00FIQB000000000000000'],
+        ], 200);
+    });
+
+    $status = app(FibPaymentServiceContract::class)->pollForStatus(
+        '4d6f7625-60f7-48e3-82e3-b4592a4eb993',
+        initialWaitSeconds: 0,
+        pollIntervalSeconds: 0,
+        maxAttempts: 5,
+    );
+
+    expect($status->isPaid())->toBeTrue()
+        ->and($calls)->toBeGreaterThanOrEqual(2);
+});
 
 it('checks a payment status and persists it', function () {
     Http::fake([

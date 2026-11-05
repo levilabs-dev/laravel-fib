@@ -65,8 +65,27 @@ class PaymentController extends Controller
     }
 
     /**
-     * Manual "check now" endpoint — e.g. a page the user lands on after
-     * paying that polls this while waiting for the webhook.
+     * Checkout waiting page — FIB recommends callback + Check Payment Status.
+     * Either poll once (AJAX) or use pollForStatus() server-side with 0/0 in
+     * tests; defaults follow config (15s initial wait, then every 5s).
+     */
+    public function waitForPayment(Order $order)
+    {
+        $status = FibPayment::pollForStatus($order->fib_payment_id);
+
+        if ($status->isPaid()) {
+            $order->update(['status' => 'paid']);
+        }
+
+        return response()->json([
+            'status' => $status->status->value,
+            'is_paid' => $status->isPaid(),
+        ]);
+    }
+
+    /**
+     * Single status check — e.g. lightweight AJAX while the user stays on
+     * the pay screen (your front end can call this every 5s per FIB docs).
      */
     public function checkStatus(Order $order)
     {

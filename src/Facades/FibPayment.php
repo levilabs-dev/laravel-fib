@@ -16,6 +16,7 @@ use LeviLabs\LaravelFib\Enums\Payments\PaymentCategory;
  * @method static PaymentStatusData status(string $paymentId, ?string $account = null)
  * @method static bool cancel(string $paymentId, ?string $account = null)
  * @method static RefundData refund(string $paymentId, ?string $account = null)
+ * @method static PaymentStatusData pollForStatus(string $paymentId, ?int $initialWaitSeconds = null, ?int $pollIntervalSeconds = null, ?int $maxAttempts = null, ?string $account = null)
  *
  * @see FibPaymentServiceContract
  */

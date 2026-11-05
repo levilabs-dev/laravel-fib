@@ -29,4 +29,21 @@ interface FibPaymentServiceContract
      * Requests a refund for a paid payment.
      */
     public function refund(string $paymentId, ?string $account = null): RefundData;
+
+    /**
+     * Polls FIB's Check Payment Status endpoint using FIB's recommended pattern:
+     * an initial wait, then repeated status checks until the payment is paid,
+     * declined, refunded, expired, or max attempts are reached.
+     *
+     * Use on a checkout "waiting" screen when the callback may be delayed.
+     * Prefer the callback + {@see status()} for fulfillment; schedule
+     * `fib:sync-statuses` as a backstop.
+     */
+    public function pollForStatus(
+        string $paymentId,
+        ?int $initialWaitSeconds = null,
+        ?int $pollIntervalSeconds = null,
+        ?int $maxAttempts = null,
+        ?string $account = null,
+    ): PaymentStatusData;
 }
